@@ -51,7 +51,7 @@ router.post("/user/register", async (req, res) => {
           res.status(200).json({ accessToken })
         })
         .catch(error => {
-          res.status(400).json({ message: error })
+          res.status(400).json({ error })
         })
       return
     }

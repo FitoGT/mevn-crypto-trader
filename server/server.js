@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const app = express()
 const cors = require('cors');
 const userRoutes = require("./routes/user")
+const transactionsRoutes = require("./routes/transactions")
 require("dotenv").config();
 
 const PORT = process.env.PORT || 5000
@@ -17,6 +18,7 @@ mongoose.connect(MONGO_URI)
 
 //middleware
 app.use("/api", userRoutes)
+app.use("/api", transactionsRoutes)
 
 app.listen(PORT, () => {
   console.log(`server starter on port: ${PORT}`)
