@@ -12,12 +12,12 @@ app.use(express.json())
 
 //mongodb connection
 mongoose.connect(MONGO_URI)
-    .then(() => console.log('connected to db atlas'))
-    .catch((error) => console.error(error))
+  .then(() => console.log('connected to db atlas'))
+  .catch((error) => console.error(error))
 
 //middleware
 app.use("/api", userRoutes)
 
 app.listen(PORT, () => {
-    console.log(`server starter on port: ${PORT}`)
+  console.log(`server starter on port: ${PORT}`)
 })  
