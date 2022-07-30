@@ -44,8 +44,10 @@ export default {
   },
   created() {
     const token = localStorage.getItem('token')
-    const decoded = jwt_decode(token)
-    this.username = decoded.name
+    if (token) {
+      const decoded = jwt_decode(token)
+      this.username = decoded.name
+    }
   }
 }
 </script>

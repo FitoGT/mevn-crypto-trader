@@ -1,5 +1,5 @@
 <template>
-  <custom-form @sendUser="login($event)">
+  <custom-form @sendUser="login($event)" :error="error">
     <template v-slot:title>
       <h1 class="well">Login</h1>
     </template>
@@ -15,6 +15,11 @@ export default {
   components: {
     CustomForm
   },
+  data() {
+    return {
+      error: null
+    }
+  },
   methods: {
     async login(user) {
       const rawResponse = await fetch('http://localhost:5000/api/user/login', {
@@ -26,9 +31,11 @@ export default {
         body: JSON.stringify(user)
       });
       const content = await rawResponse.json();
-      if (content) {
+      if (!content.error) {
         localStorage.setItem('token', JSON.stringify(content.accessToken));
         router.push('/')
+      } else {
+        this.error = content.error
       }
     }
   }

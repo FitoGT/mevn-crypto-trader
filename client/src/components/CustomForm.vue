@@ -19,6 +19,10 @@
         </div>
       </div>
     </div>
+    <div v-if="error" class="alert alert-danger">
+      <strong>Oops!</strong> {{ error }}
+    </div>
+
   </div>
 </template>
 
@@ -26,6 +30,12 @@
 
 export default {
   name: 'CustomForm',
+  props: {
+    error: {
+      type: String,
+      default: null
+    }
+  },
   data() {
     return {
       name: '',
@@ -40,6 +50,5 @@ export default {
       })
     }
   }
-
 }
 </script>
