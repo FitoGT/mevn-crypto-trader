@@ -1,7 +1,7 @@
 <template>
-  <custom-form @registerUser="registerUser($event)">
+  <custom-form @sendUser="registerUser($event)">
     <template v-slot:title>
-      <h1 class="well">Registration Form</h1>
+      <h1 class="well">Register</h1>
 
     </template>
     <template v-slot:repeatPassword>
@@ -15,6 +15,7 @@
 
 <script>
 import CustomForm from '@/components/CustomForm.vue'
+import router from '@/router';
 export default {
   name: 'Register',
   components: {
@@ -36,8 +37,10 @@ export default {
         body: JSON.stringify(user)
       });
       const content = await rawResponse.json();
-
-      console.log(content);
+      if (content) {
+        localStorage.setItem('token', JSON.stringify(content.accessToken));
+        router.push('/')
+      }
     }
   }
 

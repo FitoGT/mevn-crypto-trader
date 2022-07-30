@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     sendUserData() {
-      this.$emit("registerUser", {
+      this.$emit("sendUser", {
         name: this.name,
         password: this.password
       })

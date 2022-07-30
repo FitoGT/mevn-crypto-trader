@@ -23,13 +23,18 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import Transactions from '@/components/Transactions.vue'
+import router from '@/router'
 
 export default {
   name: 'HomeView',
   components: {
     Transactions
+  },
+  beforeCreate() {
+    if (!localStorage.getItem('token')) {
+      router.push('login')
+    }
   }
 }
 </script>
