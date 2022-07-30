@@ -11,20 +11,23 @@
           <div class="panel-body">
             <h3>
               {{ username }}
+              <button type="button" @click="showModal(true)" class="btn btn-md btn-primary">Transfer</button>
+
             </h3>
             <loader v-if="loading" />
             <transactions v-if="showTransactions" :transactions="transactions" />
           </div>
-
         </div>
       </div>
     </div>
+    <transaction-modal v-if="modalOpen" @showModal="showModal($event)" />
   </div>
 </template>
 
 <script>
 import Transactions from '@/components/Transactions.vue'
 import Loader from '@/components/Loader.vue'
+import TransactionModal from '@/components/TransactionModal.vue'
 import router from '@/router'
 import jwt_decode from 'jwt-decode'
 
@@ -33,13 +36,15 @@ export default {
   components: {
     Transactions,
     Loader,
+    TransactionModal
   },
   data() {
     return {
       username: '',
       transactions: [],
       token: null,
-      loading: false
+      loading: false,
+      modalOpen: false
     }
   },
   beforeCreate() {
@@ -57,6 +62,9 @@ export default {
     }
   },
   methods: {
+    showModal(option) {
+      this.modalOpen = option
+    },
     async listTransactions(token) {
       this.loading = true
       const rawResponse = await fetch(`http://localhost:5000/api/transactions/${this.username}`, {
