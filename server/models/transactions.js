@@ -15,6 +15,7 @@ const transactionSchema = mongoose.Schema({
   },
   address: {
     type: String,
+    required: true
   }
 })
 

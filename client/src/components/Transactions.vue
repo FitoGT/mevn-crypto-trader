@@ -1,48 +1,38 @@
 <template>
   <div>
-    <ul class="list-group">
-      <li class="list-group-item">
-        <h4>Account # 1364672 (current debit:: $356.61)</h4>
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>Operation date</th>
-              <th>Remitter</th>
-              <th>Beneficiary</th>
-              <th>Amount</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Wed Nov 12 17:43:13 MSK 2014</td>
-              <td>Smith J. (cash in)</td>
-              <td>Jonex A.</td>
-              <td>356.61</td>
-              <td>Iniital deposit</td>
-            </tr>
-            <tr>
-              <td>Wed Nov 13 12:41:13 MSK 2014</td>
-              <td>Suzarland TJ.</td>
-              <td>Smith J.</td>
-              <td>2000.00</td>
-              <td>Reward</td>
-            </tr>
-            <tr>
-              <td>Wed Nov 15 07:43:13 MSK 2014</td>
-              <td>Smith J.</td>
-              <td>Smith M.</td>
-              <td>100.00</td>
-              <td>funds transfer</td>
-            </tr>
-          </tbody>
-        </table>
-      </li>
-    </ul>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Operation date</th>
+          <th>User</th>
+          <th>Address</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(transaction, key) of transactions">
+          <td>{{ parseDate(transaction.date) }}</td>
+          <td>{{ transaction.userName }}</td>
+          <td>{{ transaction.address }}</td>
+          <td>{{ transaction.amount }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 <script>
 export default {
   name: 'Transactions',
+  props: {
+    transactions: {
+      type: Array,
+      default: () => []
+    }
+  },
+  methods: {
+    parseDate(date) {
+      return Date(date)
+    }
+  }
 }
 </script>
