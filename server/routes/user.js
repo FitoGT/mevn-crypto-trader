@@ -21,7 +21,7 @@ router.post("/user/login", (req, res) => {
                         const accessToken = jwt.sign(sign, process.env.ACCESS_TOKEN_SECRET)
                         res.json({ accessToken })
                     } else {
-                        res.status(401).json({ error: 'Unauthorized' })
+                        res.status(401).json({ error: 'Invalid Password' })
                     }
                 } catch {
                     res.status(500).json({ error: 'Internar Server Error' })
@@ -48,10 +48,10 @@ router.post("/user/register", async (req, res) => {
                 .then(data => {
                     const sign = { name: name }
                     const accessToken = jwt.sign(sign, process.env.ACCESS_TOKEN_SECRET)
-                    res.json({ accessToken })
+                    res.status(200).json({ accessToken })
                 })
                 .catch(error => {
-                    res.json({ message: error })
+                    res.status(400).json({ message: error })
                 })
             return
         }
