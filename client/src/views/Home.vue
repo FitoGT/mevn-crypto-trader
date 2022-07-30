@@ -28,7 +28,7 @@ import router from '@/router'
 import jwt_decode from 'jwt-decode'
 
 export default {
-  name: 'HomeView',
+  name: 'Home',
   components: {
     Transactions
   },
