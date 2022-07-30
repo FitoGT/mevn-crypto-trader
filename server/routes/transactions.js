@@ -9,11 +9,12 @@ router.post("/transactions", async (req, res) => {
 		return
 	}
 	try {
-		const { userName, amount } = req.body
+		const { userName, amount, address } = req.body
 		const date = Date.now()
 		const transaction = {
 			userName,
 			amount,
+			address,
 			date
 		}
 		const saveTransaction = transactionSchema(transaction)

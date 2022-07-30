@@ -14,7 +14,7 @@
               {{ username }}
             </h3>
             <loader v-if="loading" />
-            <transactions v-if="showTransactions" />
+            <transactions v-if="showTransactions" :transactions="transactions" />
           </div>
 
         </div>
