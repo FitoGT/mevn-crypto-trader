@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <transaction-modal v-if="modalOpen" @showModal="showModal($event)" />
+    <transaction-modal v-if="modalOpen" @showModal="showModal($event)" @sendTransaction="sendTransaction($event)" />
   </div>
 </template>
 
@@ -57,27 +57,51 @@ export default {
     if (token) {
       const decoded = jwt_decode(token)
       this.username = decoded.name
+      this.token = token
       //fetch transactions
-      this.listTransactions(token)
+      this.listTransactions()
     }
   },
   methods: {
     showModal(option) {
       this.modalOpen = option
     },
-    async listTransactions(token) {
+    async listTransactions() {
       this.loading = true
       const rawResponse = await fetch(`http://localhost:5000/api/transactions/${this.username}`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${this.token}`
         }
       });
       const transactions = await rawResponse.json()
       this.loading = false
       this.transactions = transactions.data ? transactions.data : []
+    },
+    async sendTransaction(data) {
+      this.loading = true
+      this.modalOpen = false
+      const transactionData = {
+        amount: data.amount,
+        address: data.address,
+        userName: this.username,
+      }
+      const rawResponse = await fetch(`http://localhost:5000/api/transactions`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.token}`
+        },
+        body: JSON.stringify(transactionData)
+      });
+      const transactions = await rawResponse.json()
+      if (!transactions.error) {
+        this.listTransactions()
+      }
+
     }
   },
   computed: {

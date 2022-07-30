@@ -3,16 +3,25 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Modal title</h5>
+					<h5 class="modal-title">Send transaction</h5>
 					<button type="button" @click="showModal" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<p>Modal body text goes here.</p>
+					<div class="row">
+						<div class="col-sm-12 form-group">
+							<label>Address</label>
+							<input type="text" v-model="address" class="form-control">
+						</div>
+						<div class="col-sm-12 form-group">
+							<label>Amount</label>
+							<input type="number" v-model="amount" class="form-control">
+						</div>
+					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary">Save changes</button>
+					<button type="button" @click="sendData" class="btn btn-primary">Save changes</button>
 					<button @click="showModal" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 				</div>
 			</div>
@@ -22,9 +31,21 @@
 <script>
 export default {
 	name: 'TransactionModal',
+	data() {
+		return {
+			amount: 0,
+			address: ''
+		}
+	},
 	methods: {
 		showModal() {
 			this.$emit("showModal", false)
+		},
+		sendData() {
+			this.$emit("sendTransaction", {
+				amount: this.amount,
+				address: this.address
+			})
 		}
 	}
 }
