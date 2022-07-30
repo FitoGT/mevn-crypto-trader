@@ -33,6 +33,10 @@ export default {
         this.error = 'Passwords must coincide'
         return
       }
+      if (!this.checkFields(user)) {
+        this.error = 'Fields must not be empty'
+        return
+      }
       const rawResponse = await fetch('http://localhost:5000/api/user/register', {
         method: 'POST',
         headers: {
@@ -51,6 +55,9 @@ export default {
     },
     checkPasswords(userPassword) {
       return userPassword === this.repeatPassword
+    },
+    checkFields(user) {
+      return user.name.length && user.password.length && this.repeatPassword.length
     }
   }
 
