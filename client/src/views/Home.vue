@@ -11,7 +11,7 @@
           </div>
           <div class="panel-body">
             <h3>
-              JONES Alexander
+              {{ username }}
             </h3>
             <transactions />
           </div>
@@ -25,16 +25,27 @@
 <script>
 import Transactions from '@/components/Transactions.vue'
 import router from '@/router'
+import jwt_decode from 'jwt-decode'
 
 export default {
   name: 'HomeView',
   components: {
     Transactions
   },
+  data() {
+    return {
+      username: ''
+    }
+  },
   beforeCreate() {
     if (!localStorage.getItem('token')) {
       router.push('login')
     }
+  },
+  created() {
+    const token = localStorage.getItem('token')
+    const decoded = jwt_decode(token)
+    this.username = decoded.name
   }
 }
 </script>
