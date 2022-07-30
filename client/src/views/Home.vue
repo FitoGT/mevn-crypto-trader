@@ -13,7 +13,8 @@
             <h3>
               {{ username }}
             </h3>
-            <transactions />
+            <loader v-if="loading" />
+            <transactions v-if="showTransactions" />
           </div>
 
         </div>
@@ -24,17 +25,22 @@
 
 <script>
 import Transactions from '@/components/Transactions.vue'
+import Loader from '@/components/Loader.vue'
 import router from '@/router'
 import jwt_decode from 'jwt-decode'
 
 export default {
   name: 'Home',
   components: {
-    Transactions
+    Transactions,
+    Loader,
   },
   data() {
     return {
-      username: ''
+      username: '',
+      transactions: [],
+      token: null,
+      loading: false
     }
   },
   beforeCreate() {
@@ -47,6 +53,29 @@ export default {
     if (token) {
       const decoded = jwt_decode(token)
       this.username = decoded.name
+      //fetch transactions
+      this.listTransactions(token)
+    }
+  },
+  methods: {
+    async listTransactions(token) {
+      this.loading = true
+      const rawResponse = await fetch(`http://localhost:5000/api/transactions/${this.username}`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const transactions = await rawResponse.json()
+      this.loading = false
+      this.transactions = transactions.data ? transactions.data : []
+    }
+  },
+  computed: {
+    showTransactions() {
+      return !this.loading && this.transactions.length
     }
   }
 }

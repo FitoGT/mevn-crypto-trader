@@ -3,6 +3,9 @@
     <template v-slot:title>
       <h1 class="well">Login</h1>
     </template>
+    <template v-slot:registerForm>
+      <router-link to="/register">Not an user? Click here to sign in</router-link>
+    </template>
   </custom-form>
 </template>
 
