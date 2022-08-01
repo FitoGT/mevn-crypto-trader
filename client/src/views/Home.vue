@@ -16,6 +16,9 @@
             </h3>
             <loader v-if="loading" />
             <transactions v-if="showTransactions" :transactions="transactions" />
+            <div class="text-center" v-else>
+              <h3>No data</h3>
+            </div>
           </div>
         </div>
       </div>

@@ -18,10 +18,14 @@
 							<label>Amount</label>
 							<input type="number" v-model="amount" class="form-control">
 						</div>
+
+					</div>
+					<div v-if="error" class="alert alert-danger">
+						<strong>Oops!</strong> {{ error }}
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" @click="sendData" class="btn btn-primary">Save changes</button>
+					<button type="button" @click="sendData" class="btn btn-primary">Transfer</button>
 					<button @click="showModal" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 				</div>
 			</div>
@@ -34,7 +38,8 @@ export default {
 	data() {
 		return {
 			amount: 0,
-			address: ''
+			address: '',
+			error: null
 		}
 	},
 	methods: {
@@ -42,6 +47,10 @@ export default {
 			this.$emit("showModal", false)
 		},
 		sendData() {
+			if (this.amount === 0 || !this.address.length) {
+				this.error = 'Fields must not be empty'
+				return
+			}
 			this.$emit("sendTransaction", {
 				amount: this.amount,
 				address: this.address
